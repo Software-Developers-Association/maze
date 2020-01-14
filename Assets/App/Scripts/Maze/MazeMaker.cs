@@ -25,19 +25,15 @@ public class MazeMaker : MonoBehaviour {
 	}
 
 	public void Regenerate() {
-		if(this.maze == null) return;
-
 		int size = this.mazeParent.childCount;
 
 		for(int i = 0; i < size; ++i) {
-			if(Application.isPlaying) {
-				Destroy(this.mazeParent.GetChild(0).gameObject);
-			} else {
-				DestroyImmediate(this.mazeParent.GetChild(0).gameObject);
-			}
+			DestroyImmediate(this.mazeParent.GetChild(0).gameObject);
 		}
 
 		this.mazeParent.localPosition = Vector3.zero;
+
+		if(this.maze == null) return;
 
 		for(int j = 0; j < this.maze.GetLength(1); ++j) {
 			for(int i = 0; i < this.maze.GetLength(0); ++i) {
@@ -120,11 +116,7 @@ public class MazeMaker : MonoBehaviour {
 
 		for(int i = 0; i < this.pellets.Length; ++i) {
 			if(this.pellets[i]) {
-				if(Application.isPlaying) {
-					Destroy(this.pellets[i]);
-				} else {
-					DestroyImmediate(this.pellets[i]);
-				}
+				DestroyImmediate(this.pellets[i]);
 			}
 		}
 
@@ -146,13 +138,11 @@ public class MazeMaker : MonoBehaviour {
 	public void Generate() {
 		this.mazeParent.localPosition = Vector3.zero;
 
+		this.generator.Width = this.width;
+		this.generator.Height = this.height;
+
 		this.maze = this.generator.Generate(this.iMaze, 0, 0);
 
 		this.Regenerate();
-	}
-
-	private void OnValidate() {
-		this.generator.Width = this.width;
-		this.generator.Height = this.height;
 	}
 }
