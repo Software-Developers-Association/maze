@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7374791198600996692
 Transform:
   m_ObjectHideFlags: 0
@@ -57,10 +57,10 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 512
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 4332272244291546126}
   - component: {fileID: 418235822305798915}
   - component: {fileID: 8263433867560216405}
+  - component: {fileID: 2627413773821771167}
   m_Layer: 10
   m_Name: Pellet
   m_TagString: Untagged
@@ -161,3 +162,15 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2627413773821771167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5453712912807703847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf093771e8eb54851aabf9e26804bda5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

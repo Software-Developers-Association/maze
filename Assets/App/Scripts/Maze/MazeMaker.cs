@@ -99,13 +99,20 @@ public class MazeMaker : MonoBehaviour {
 			}
 		}
 
+		this.mazeParent.GetComponent<MeshCombine>().AdvancedMerge();
+		this.mazeParent.GetComponent<MeshCollider>().sharedMesh = this.mazeParent.GetComponent<MeshFilter>().sharedMesh;
+
 		var center = Vector3.zero;
 		center.x = -this.generator.Width * this.size / 2.0F;
 		center.z = +this.generator.Height * this.size / 2.0F;
 
 		this.mazeParent.localPosition = center;
 
-		this.pellets = new GameObject[10];
+		if(this.pellets == null || this.pellets.Length == 0) this.pellets = new GameObject[10];
+
+		for(int i = 0; i < this.pellets.Length; ++i) {
+			if(this.pellets[i]) DestroyImmediate(this.pellets[i]);
+		}
 
 		for(int i = 0; i < this.pellets.Length; ++i) {
 			this.pellets[i] = Instantiate(this.pellet, Vector3.zero, Quaternion.identity);
