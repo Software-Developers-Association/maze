@@ -26,7 +26,11 @@ public class MazeMaker : MonoBehaviour {
 		int size = this.mazeParent.childCount;
 
 		for(int i = 0; i < size; ++i) {
-			DestroyImmediate(this.mazeParent.GetChild(0).gameObject);
+			if(Application.isPlaying) {
+				Destroy(this.mazeParent.GetChild(0).gameObject);
+			} else {
+				DestroyImmediate(this.mazeParent.GetChild(0).gameObject);
+			}
 		}
 
 		this.mazeParent.localPosition = Vector3.zero;
@@ -111,7 +115,13 @@ public class MazeMaker : MonoBehaviour {
 		if(this.pellets == null || this.pellets.Length == 0) this.pellets = new GameObject[10];
 
 		for(int i = 0; i < this.pellets.Length; ++i) {
-			if(this.pellets[i]) DestroyImmediate(this.pellets[i]);
+			if(this.pellets[i]) {
+				if(Application.isPlaying) {
+					Destroy(this.pellets[i]);
+				} else {
+					DestroyImmediate(this.pellets[i]);
+				}
+			}
 		}
 
 		for(int i = 0; i < this.pellets.Length; ++i) {
