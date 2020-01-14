@@ -12,26 +12,6 @@ public class MazeMaker : MonoBehaviour {
 	private Cell[,] maze = null;
 	private GameObject[] pellets = null;
 
-	private void Start() {
-		Debug.Log(this.maze == null);
-
-		this.pellets = new GameObject[10];
-
-		for(int i = 0; i < this.pellets.Length; ++i) {
-			this.pellets[i] = Instantiate(this.pellet, Vector3.zero, Quaternion.identity);
-
-			this.pellets[i].transform.SetParent(this.mazeParent);
-
-			var position = Vector3.zero;
-			position.y = 3.0F;
-
-			position.x = Random.Range(0, width) * this.size;
-			position.z = -Random.Range(0, height) * this.size;
-
-			this.pellets[i].transform.localPosition = position;
-		}
-	}
-
 	private GameObject CreateWall() {
 		var clone = Instantiate(this.wall);
 
@@ -124,6 +104,22 @@ public class MazeMaker : MonoBehaviour {
 		center.z = +this.generator.Height * this.size / 2.0F;
 
 		this.mazeParent.localPosition = center;
+
+		this.pellets = new GameObject[10];
+
+		for(int i = 0; i < this.pellets.Length; ++i) {
+			this.pellets[i] = Instantiate(this.pellet, Vector3.zero, Quaternion.identity);
+
+			this.pellets[i].transform.SetParent(this.mazeParent);
+
+			var position = Vector3.zero;
+			position.y = 3.0F;
+
+			position.x = Random.Range(0, width) * this.size;
+			position.z = -Random.Range(0, height) * this.size;
+
+			this.pellets[i].transform.localPosition = position;
+		}
 	}
 
 	public void Generate() {
