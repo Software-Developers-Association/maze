@@ -12,6 +12,10 @@ public class MazeMaker : MonoBehaviour {
 	private Cell[,] maze = null;
 	private GameObject[] pellets = null;
 
+	private void Start() {
+		this.Generate();
+	}
+
 	private GameObject CreateWall() {
 		var clone = Instantiate(this.wall);
 
