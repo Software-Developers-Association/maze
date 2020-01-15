@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 418235822305798915}
   - component: {fileID: 8263433867560216405}
   - component: {fileID: 2627413773821771167}
+  - component: {fileID: 3063844772614125952}
   m_Layer: 10
   m_Name: Pellet
   m_TagString: Untagged
@@ -174,3 +175,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf093771e8eb54851aabf9e26804bda5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3063844772614125952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5453712912807703847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77efe8d543d254ab7a32c122e23f63a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  band: 1
+  multiplier: 1
+  threshhold: 0.25
+  lerp: 20
+  axis: 11
+  minScale: {x: 2.5, y: 2.5, z: 2.5}
+  maxScale: {x: 4, y: 4, z: 4}
