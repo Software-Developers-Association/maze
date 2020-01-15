@@ -45,7 +45,13 @@ public class MusicPlayer : MonoBehaviour {
 			yield return new WaitForSecondsRealtime(waitTime);
 
 			if(this.random) {
-				this.next.clip = this.clips[Random.Range(0, this.clips.Length)];
+				var clip = this.clips[Random.Range(0, this.clips.Length)];
+
+				while(clip == this.current.clip && this.clips.Length > 1) {
+					clip = this.clips[Random.Range(0, this.clips.Length)];
+				}
+
+				this.next.clip = clip;
 			} else {
 				// we need to load up the next song, and fade out the current song over 5 seconds.
 				this.index++;

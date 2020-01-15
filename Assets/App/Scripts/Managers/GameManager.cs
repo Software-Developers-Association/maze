@@ -4,6 +4,7 @@ public class GameManager : Singleton<GameManager> {
 	public static event System.Action<int> onScoreChanged = null;
 	private int score = 0;
 	private float seconds;
+	private int pickups = 0;
 
 	public static int Score {
 		get {
@@ -26,9 +27,21 @@ public class GameManager : Singleton<GameManager> {
 				GameManager.onScoreChanged(GameManager.Score);
 			}
 
-			if(Instance.score % 100 == 0) {
+			Instance.pickups++;
+
+			if(Instance.pickups == 10) {
 				Instance.maker.Generate();
 			}
+		}
+	}
+
+	public static void OnHitVirus() {
+		Instance.score -= 5;
+
+		Instance.score = Mathf.Clamp(Instance.score, 0, int.MaxValue);
+
+		if(GameManager.onScoreChanged != null) {
+			GameManager.onScoreChanged(GameManager.Score);
 		}
 	}
 

@@ -3,6 +3,7 @@
 public class MazeMaker : MonoBehaviour {
 	public GameObject wall;
 	public GameObject pellet;
+	public Virus virus;
 	public MazeGenerator generator = new MazeGenerator();
 	public int width, height;
 	public Transform mazeParent;
@@ -117,6 +118,22 @@ public class MazeMaker : MonoBehaviour {
 		for(int i = 0; i < this.pellets.Length; ++i) {
 			if(this.pellets[i]) {
 				DestroyImmediate(this.pellets[i]);
+			}
+		}
+
+		for(int i = 0; i < 10; ++i) {
+			if(Random.Range(0, 100) >= 50) {
+				var virus = Instantiate(this.virus.gameObject).GetComponent<Virus>();
+
+				virus.transform.SetParent(this.mazeParent);
+
+				var position = Vector3.zero;
+
+				position.x = Random.Range(0, width) * this.size;
+				position.y = 3.0F;
+				position.z = -Random.Range(0, height) * this.size;
+
+				virus.transform.localPosition = position;
 			}
 		}
 
