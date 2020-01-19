@@ -18,6 +18,7 @@ public class MainMenuController : MonoBehaviour {
 			this.view.Play.onClick.RemoveListener(this.OnPlay);
 			this.view.Score.onClick.RemoveListener(this.OnScore);
 			this.view.Credits.onClick.RemoveListener(this.OnCredits);
+			this.view.Menu.onClick.RemoveListener(this.OnMenu);
 		}
 
 		// subscribe to new view
@@ -26,6 +27,7 @@ public class MainMenuController : MonoBehaviour {
 		this.view.Play.onClick.AddListener(this.OnPlay);
 		this.view.Score.onClick.AddListener(this.OnScore);
 		this.view.Credits.onClick.AddListener(this.OnCredits);
+		this.view.Menu.onClick.AddListener(this.OnMenu);
 	}
 
 	protected virtual void OnPlay() {
@@ -37,6 +39,10 @@ public class MainMenuController : MonoBehaviour {
 	}
 
 	protected virtual void OnCredits() {
+
+	}
+
+	protected virtual void OnMenu() {
 
 	}
 }

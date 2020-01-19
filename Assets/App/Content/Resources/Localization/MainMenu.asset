@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b0f85f998b241c49396716bdcc86b5, type: 3}
+  m_Name: MainMenu
+  m_EditorClassIdentifier: 
+  phrases:
+  - tag: Header
+    fallback: en
+    locals:
+    - lang: en
+      text: SoDA Presents - Maze Runner 2020
+    - lang: es
+      text: SoDA Presenta - Maze Runner 2020
+    - lang: ru
+      text: "SoDA \u041F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043B\u044F\u0435\u0442
+        - Maze Runner 2020"
+    - lang: uk
+      text: "SoDA \u041F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043B\u044F\u0454
+        - Maze Runner 2020"
+  - tag: Play
+    fallback: en
+    locals:
+    - lang: en
+      text: Play
+    - lang: es
+      text: Jugar
+    - lang: ru
+      text: "\u0418\u0433\u0440\u0430\u0442\u044C"
+    - lang: uk
+      text: "\u0413\u0440\u0430\u0442\u0438"
+  - tag: Score
+    fallback: en
+    locals:
+    - lang: en
+      text: Score
+    - lang: es
+      text: Puntos
+    - lang: ru
+      text: "\u0421\u0447\u0451\u0442"
+    - lang: uk
+      text: "\u0411\u0430\u043B\u0456\u0432"
+  - tag: Credits
+    fallback: en
+    locals:
+    - lang: en
+      text: Credits
+    - lang: es
+      text: "Cr\xE9ditos"
+    - lang: ru
+      text: "\u0421\u043E\u0437\u0434\u0430\u0442\u0435\u043B\u0438"
+    - lang: uk
+      text: "\u0422\u0432\u043E\u0440\u0446\u0456"
