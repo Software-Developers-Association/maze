@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Collider))]
 public class Virus : Actor {
@@ -9,10 +10,16 @@ public class Virus : Actor {
 
 		this.stateMachine.Add("Patrol", this.patrol.State);
 
+		this.StartCoroutine(this._Wait());
+	}
+
+	IEnumerator _Wait() {
+		yield return new WaitForSeconds(0.25F);
+
 		this.stateMachine.State = "Patrol";
 	}
 
 	protected virtual void OnTriggerEnter(Collider collider) {
-		GameManager.OnHitVirus();
+		GameManager.OnContacted(this);
 	}
 }

@@ -9,7 +9,7 @@ public class MazeMaker : MonoBehaviour {
 	public Transform mazeParent;
 	public float size = 10.0F;
 
-	private IMaze iMaze = new DFSB(0);
+	private IMaze iMaze = null;
 	private Cell[,] maze = null;
 	private GameObject[] pellets = null;
 
@@ -33,6 +33,8 @@ public class MazeMaker : MonoBehaviour {
 		}
 
 		this.mazeParent.localPosition = Vector3.zero;
+		var xOffset = -this.generator.Width * this.size / 2.0F;
+		var zOffset = this.generator.Height * this.size / 2.1F;
 
 		if(this.maze == null) return;
 
@@ -50,8 +52,8 @@ public class MazeMaker : MonoBehaviour {
 
 					Vector3 position = Vector3.zero;
 
-					position.x = i * this.size;
-					position.z = -j * this.size + this.size / 2.0F;
+					position.x = i * this.size + xOffset;
+					position.z = -j * this.size + this.size / 2.0F + zOffset;
 
 					wall.transform.forward = Vector3.forward;
 					wall.transform.position = position;
@@ -65,8 +67,8 @@ public class MazeMaker : MonoBehaviour {
 
 					Vector3 position = Vector3.zero;
 
-					position.x = i * this.size;
-					position.z = -j * this.size - this.size / 2.0F;
+					position.x = i * this.size + xOffset;
+					position.z = -j * this.size - this.size / 2.0F + zOffset;
 
 					wall.transform.forward = Vector3.back;
 					wall.transform.position = position;
@@ -80,8 +82,8 @@ public class MazeMaker : MonoBehaviour {
 
 					Vector3 position = Vector3.zero;
 
-					position.x = i * this.size + this.size / 2.0F;
-					position.z = -j * this.size;
+					position.x = i * this.size + this.size / 2.0F + xOffset;
+					position.z = -j * this.size + zOffset;
 
 					wall.transform.forward = Vector3.right;
 					wall.transform.position = position;
@@ -95,8 +97,8 @@ public class MazeMaker : MonoBehaviour {
 
 					Vector3 position = Vector3.zero;
 
-					position.x = i * this.size - this.size / 2.0F;
-					position.z = -j * this.size;
+					position.x = i * this.size - this.size / 2.0F + xOffset;
+					position.z = -j * this.size + zOffset;
 
 					wall.transform.forward = Vector3.left;
 					wall.transform.position = position;
@@ -107,11 +109,11 @@ public class MazeMaker : MonoBehaviour {
 		this.mazeParent.GetComponent<MeshCombine>().AdvancedMerge();
 		this.mazeParent.GetComponent<MeshCollider>().sharedMesh = this.mazeParent.GetComponent<MeshFilter>().sharedMesh;
 
-		var center = Vector3.zero;
-		center.x = -this.generator.Width * this.size / 2.0F;
-		center.z = +this.generator.Height * this.size / 2.0F;
+		//var center = Vector3.zero;
+		//center.x = -this.generator.Width * this.size / 2.0F;
+		//center.z = +this.generator.Height * this.size / 2.0F;
 
-		this.mazeParent.localPosition = center;
+		//this.mazeParent.localPosition = center;
 
 		if(this.pellets == null || this.pellets.Length == 0) this.pellets = new GameObject[10];
 
@@ -123,17 +125,22 @@ public class MazeMaker : MonoBehaviour {
 
 		for(int i = 0; i < 10; ++i) {
 			if(Random.Range(0, 100) >= 50) {
+				this.virus.gameObject.SetActive(false);
+
 				var virus = Instantiate(this.virus.gameObject).GetComponent<Virus>();
 
 				virus.transform.SetParent(this.mazeParent);
 
 				var position = Vector3.zero;
 
-				position.x = Random.Range(0, width) * this.size;
+				position.x = Random.Range(0, width) * this.size + xOffset;
 				position.y = 3.0F;
-				position.z = -Random.Range(0, height) * this.size;
+				position.z = -Random.Range(0, height) * this.size + zOffset;
 
 				virus.transform.localPosition = position;
+				virus.gameObject.SetActive(true);
+
+				this.virus.gameObject.SetActive(true);
 			}
 		}
 
@@ -145,8 +152,8 @@ public class MazeMaker : MonoBehaviour {
 			var position = Vector3.zero;
 			position.y = 3.0F;
 
-			position.x = Random.Range(0, width) * this.size;
-			position.z = -Random.Range(0, height) * this.size;
+			position.x = Random.Range(0, width) * this.size + xOffset;
+			position.z = -Random.Range(0, height) * this.size + zOffset;
 
 			this.pellets[i].transform.localPosition = position;
 		}
@@ -158,7 +165,7 @@ public class MazeMaker : MonoBehaviour {
 		this.generator.Width = this.width;
 		this.generator.Height = this.height;
 
-		this.maze = this.generator.Generate(this.iMaze, 0, 0);
+		this.maze = this.generator.Generate(new DFSB(System.DateTime.Now.Second), 0, 0);
 
 		this.Regenerate();
 	}

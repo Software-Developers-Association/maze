@@ -45,5 +45,11 @@ public class Controller : MonoBehaviour {
 		this.rig.position += direction * this.speed * Time.deltaTime;
 
 		this.lastDirection = direction;
+
+		if(Input.GetKey(KeyCode.Space)) {
+			if(GameManager.OnPowerUp()) {
+
+			}
+		}
 	}
 }

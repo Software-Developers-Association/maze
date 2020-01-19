@@ -22,79 +22,55 @@ public class Patrol : Behaviour {
 	public Patrol(LayerMask wall, GameObject gameObject) : base(gameObject) {
 		this.wall = wall;
 		this.Speed = 20.0F;
-
-		this.direction = (Direction)Random.Range(0, 2);
-
-		switch(direction) {
-			case Direction.Horizontal:
-				{
-					bool canMove = false;
-
-					// Check if we can move left or right...
-					if(!Physics.Raycast(this.gameObject.transform.position, Vector3.left, 10F, this.wall)) {
-						canMove |= true;
-					}
-
-					if(!Physics.Raycast(this.gameObject.transform.position, Vector3.right, 10F, this.wall)) {
-						canMove |= true;
-					}
-
-					if(canMove == false) {
-						direction = Direction.Vertical;
-					}
-				}
-				break;
-			case Direction.Vertical:
-				{
-					bool canMove = false;
-
-					// Check if we can move left or right...
-					if(!Physics.Raycast(this.gameObject.transform.position, Vector3.forward, 10F, this.wall)) {
-						canMove |= true;
-					}
-
-					if(!Physics.Raycast(this.gameObject.transform.position, Vector3.back, 10F, this.wall)) {
-						canMove |= true;
-					}
-
-					if(canMove == false) {
-						direction = Direction.Horizontal;
-					}
-				}
-				break;
-		}
 	}
 
 	public float Speed { get; set; }
 
 	public override bool State(Process process) {
 		switch(process) {
+			case Process.Enter: {
+					this.direction = (Direction)Random.Range(0, 2);
+
+					switch(direction) {
+						case Direction.Horizontal: {
+								bool canMove = false;
+
+								// Check if we can move left or right...
+								if(!Physics.Raycast(this.gameObject.transform.position, Vector3.left, 6F, this.wall)) {
+									canMove |= true;
+								}
+
+								if(!Physics.Raycast(this.gameObject.transform.position, Vector3.right, 6F, this.wall)) {
+									canMove |= true;
+								}
+
+								if(canMove == false) {
+									direction = Direction.Vertical;
+									Debug.Log("Switching to vertical: " + this.gameObject.GetInstanceID());
+								}
+							}
+							break;
+						case Direction.Vertical: {
+								bool canMove = false;
+
+								// Check if we can move up or down...
+								if(!Physics.Raycast(this.gameObject.transform.position, Vector3.forward, 6F, this.wall)) {
+									canMove |= true;
+								}
+
+								if(!Physics.Raycast(this.gameObject.transform.position, Vector3.back, 6F, this.wall)) {
+									canMove |= true;
+								}
+
+								if(canMove == false) {
+									direction = Direction.Horizontal;
+									Debug.Log("Switching to horizontal: " + this.gameObject.GetInstanceID());
+								}
+							}
+							break;
+					}
+				} break;
 			case Process.Update:
-				//if(Time.time >= this.nextPatrolCheck) {
-				//	this.nextPatrolCheck = Time.time + 2.0F;
-
-				//	// Check if we can move left or right...
-				//	if(!Physics.Raycast(this.gameObject.transform.position, Vector3.left, 5.5F, this.wall)) {
-				//		direction = Direction.Horizontal;
-
-				//		break;
-				//	}
-
-				//	if(!Physics.Raycast(this.gameObject.transform.position, Vector3.right, 5.5F, this.wall)) {
-				//		direction = Direction.Horizontal;
-				//	}
-
-				//	if(!Physics.Raycast(this.gameObject.transform.position, Vector3.forward, 5.5F, this.wall)) {
-				//		direction = Direction.Vertical;
-
-				//		break;
-				//	}
-
-				//	if(!Physics.Raycast(this.gameObject.transform.position, Vector3.back, 5.5F, this.wall)) {
-				//		direction = Direction.Vertical;
-				//	}
-				//}
-
 				switch(this.direction) {
 					case Direction.Horizontal: this.Horizontal(); break;
 					case Direction.Vertical: this.Vertical(); break;

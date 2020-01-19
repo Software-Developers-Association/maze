@@ -9,13 +9,22 @@ public class HUD : MonoBehaviour {
 	private Text score;
 	[SerializeField]
 	private Text time;
+	[SerializeField]
+	private Slider powerup;
 
 	private void Start() {
 		GameManager.onScoreChanged += GameManager_onScoreChanged;
+		GameManager.onPowerupChanged += GameManager_onPowerupChanged;
+
+		this.GameManager_onScoreChanged(GameManager.Score);
 	}
 
-	private void GameManager_onScoreChanged(int score) {
-		this.score.text = score.ToString();
+	private void GameManager_onPowerupChanged(float value) {
+		this.powerup.value = value;
+	}
+
+	private void GameManager_onScoreChanged(int value) {
+		this.score.text = value.ToString();
 	}
 
 	private void Update() {
