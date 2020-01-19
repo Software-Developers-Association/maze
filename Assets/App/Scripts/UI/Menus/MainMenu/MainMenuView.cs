@@ -10,6 +10,8 @@ public class MainMenuView : UIView {
 	[SerializeField]
 	private Button score;
 	[SerializeField]
+	private Button options;
+	[SerializeField]
 	private Button credits;
 	[SerializeField]
 	private Button menu;
@@ -32,6 +34,12 @@ public class MainMenuView : UIView {
 		}
 	}
 
+	public Button Options {
+		get {
+			return this.options;
+		}
+	}
+
 	public Button Credits {
 		get {
 			return this.credits;
@@ -48,34 +56,33 @@ public class MainMenuView : UIView {
 		if(this.Localization == null) return;
 
 		Localization.Phrase phrase;
+		Localization.Phrase.Local local;
 
 		if(this.Localization.GetPhrase("Header", out phrase)) {
-			Localization.Phrase.Local local;
-
 			if(phrase.GetLocal(this.Lang, out local)) {
 				this.Header.text = local.Text;
 			}
 		}
 
 		if(this.Localization.GetPhrase("Play", out phrase)) {
-			Localization.Phrase.Local local;
-
 			if(phrase.GetLocal(this.Lang, out local)) {
 				this.Play.GetComponentInChildren<Text>().text = local.Text;
 			}
 		}
 
 		if(this.Localization.GetPhrase("Score", out phrase)) {
-			Localization.Phrase.Local local;
-
 			if(phrase.GetLocal(this.Lang, out local)) {
 				this.Score.GetComponentInChildren<Text>().text = local.Text;
 			}
 		}
 
-		if(this.Localization.GetPhrase("Credits", out phrase)) {
-			Localization.Phrase.Local local;
+		if(this.Localization.GetPhrase("Options", out phrase)) {
+			if(phrase.GetLocal(this.Lang, out local)) {
+				this.Options.GetComponentInChildren<Text>().text = local.Text;
+			}
+		}
 
+		if(this.Localization.GetPhrase("Credits", out phrase)) {
 			if(phrase.GetLocal(this.Lang, out local)) {
 				this.Credits.GetComponentInChildren<Text>().text = local.Text;
 			}

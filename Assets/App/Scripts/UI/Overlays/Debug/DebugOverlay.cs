@@ -22,6 +22,10 @@ public class DebugOverlay : MonoBehaviour {
 		Application.logMessageReceived += Application_logMessageReceived;
 	}
 
+	private void OnDestroy() {
+		Application.logMessageReceived -= Application_logMessageReceived;
+	}
+
 	private void Application_logMessageReceived(string condition, string stackTrace, LogType type) {
 		if(this.log.text.Split('\n').Length >= 25) {
 			this.log.text = string.Empty;
