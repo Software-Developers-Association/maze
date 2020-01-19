@@ -193,4 +193,4 @@ MonoBehaviour:
   lerp: 20
   axis: 11
   minScale: {x: 2.5, y: 2.5, z: 2.5}
-  maxScale: {x: 4, y: 4, z: 4}
+  maxScale: {x: 5, y: 5, z: 5}

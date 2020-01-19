@@ -5,6 +5,11 @@ public class GameManager : Singleton<GameManager> {
 	public static event System.Action<int> onScoreChanged = null;
 	public static event System.Action<float> onPowerupChanged = null;
 
+	[SerializeField]
+	private GameObject uiScore;
+	[SerializeField]
+	private Player player;
+
 	private int score = 0;
 	private float seconds;
 	private int pickups = 0;
@@ -48,13 +53,21 @@ public class GameManager : Singleton<GameManager> {
 	public static void OnPickedUp(Pickup pickup) {
 		if(pickup is Pellet) {
 			GameManager.Score += 10;
-			Instance.seconds += 5.0F;
+
+			var clone = GameObject.Instantiate(Instance.uiScore);
+
+			clone.transform.position = pickup.transform.position;
+
+			clone.GetComponentInChildren<UnityEngine.UI.Text>().text = "+10";
 
 			Instance.pickups++;
 
 			if(Instance.pickups == 10) {
 				Instance.pickups = 0;
 				Instance.maker.Generate();
+				Instance.seconds += 15.0F;
+			} else {
+				Instance.seconds += 5.0F;
 			}
 		}
 	}
@@ -65,7 +78,9 @@ public class GameManager : Singleton<GameManager> {
 		GameManager.Powerup = 0.0F;
 		Instance.isInvinsible = true;
 
-		Instance.Invoke("ResetPowerup", 1.0F);
+		Instance.player.StateMachine.State = "Empowered";
+
+		Instance.Invoke("ResetPowerup", 2.5F);
 
 		return true;
 	}
@@ -73,6 +88,12 @@ public class GameManager : Singleton<GameManager> {
 	public static void OnHitVirus() {
 		if(Instance.isInvinsible == true) {
 			GameManager.Score += 5;
+
+			var clone = GameObject.Instantiate(Instance.uiScore);
+
+			clone.transform.position = Instance.player.transform.position;
+
+			clone.GetComponentInChildren<UnityEngine.UI.Text>().text = "+5";
 
 			return;
 		}
@@ -115,6 +136,8 @@ public class GameManager : Singleton<GameManager> {
 		this.isInvinsible = false;
 
 		this.StartCoroutine(this._ChargePowerup());
+
+		Instance.player.StateMachine.State = "Normal";
 	}
 
 	private void Update() {

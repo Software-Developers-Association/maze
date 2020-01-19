@@ -28,6 +28,10 @@ public class MainMenuController : MonoBehaviour {
 		this.view.Score.onClick.AddListener(this.OnScore);
 		this.view.Credits.onClick.AddListener(this.OnCredits);
 		this.view.Menu.onClick.AddListener(this.OnMenu);
+
+		this.view.Score.interactable = false;
+		this.view.Credits.interactable = false;
+		this.view.Menu.interactable = false;
 	}
 
 	protected virtual void OnPlay() {

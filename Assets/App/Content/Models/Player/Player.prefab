@@ -123,7 +123,7 @@ TrailRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 1352952276758877825}
   - component: {fileID: 1352952276758877854}
   - component: {fileID: 1352952276758877855}
+  - component: {fileID: 380565029628311262}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -261,3 +262,19 @@ MonoBehaviour:
   wallMask:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &380565029628311262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352952276758877852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d275aef6c83b347e7940ab29d837835f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 1352952276758877824}
+  trailRenderer: {fileID: 1352952275627479643}
+  normal: {r: 0, g: 1, b: 1, a: 1}
+  empowered: {r: 1, g: 0, b: 1, a: 1}
