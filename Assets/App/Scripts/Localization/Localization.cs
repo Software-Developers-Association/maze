@@ -2,6 +2,16 @@
 
 [CreateAssetMenu(menuName = "Localization", fileName = "Localization")]
 public class Localization : ScriptableObject {
+	/// <summary>
+	/// <seealso cref="https://en.wikipedia.org/wiki/Language_localisation"/>
+	/// </summary>
+	public static readonly string[] Supported = new string[] {
+		"en",
+		"es",
+		"ru",
+		"uk"
+	};
+
 	[SerializeField]
 	private Phrase[] phrases = new Phrase[0];
 

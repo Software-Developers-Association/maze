@@ -12,7 +12,13 @@ public class OptionsController : UIController<OptionsView> {
 
 		view.LanguageSelection.onValueChanged.AddListener(this.OnLanguageSelectionChanged);
 
-		var index = System.Array.FindIndex(this.View.LanguageSelection.options.ToArray(), i => string.Compare(i.text, DataManager.GetAppData().Lang) == 0);
+		view.LanguageSelection.options.Clear();
+
+		for(int i = 0; i < Localization.Supported.Length; ++i) {
+			view.LanguageSelection.options.Add(new UnityEngine.UI.Dropdown.OptionData(Localization.Supported[i]));
+		}
+
+		var index = System.Array.FindIndex(Localization.Supported, i => string.Compare(i, DataManager.GetAppData().Lang) == 0);
 
 		if(index == -1) index = 0;
 
