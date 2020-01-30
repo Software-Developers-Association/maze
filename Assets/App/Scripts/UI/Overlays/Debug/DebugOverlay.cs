@@ -18,7 +18,7 @@ public class DebugOverlay : MonoBehaviour {
 	[SerializeField]
 	private Text log;
 
-	private void Start() {
+	private void Awake() {
 		Application.logMessageReceived += Application_logMessageReceived;
 	}
 

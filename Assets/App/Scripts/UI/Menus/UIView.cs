@@ -28,13 +28,15 @@ public abstract class UIView : MonoBehaviour {
 	}
 
 	protected virtual void OnEnable() {
-		DataManager.GetAppData().Subscribe<string>("Lang", this.OnLangChanged);
+		DataManager.Instance.AppData.Subscribe<string>("Lang", this.OnLangChanged);
 
-		this.OnLangChanged(DataManager.GetAppData().Lang);
+		this.OnLangChanged(DataManager.Instance.AppData.Lang);
 	}
 
 	protected virtual void OnDisable() {
-		DataManager.GetAppData().Unsubscribe<string>("Lang", this.OnLangChanged);
+		if(DataManager.Instance == null) return;
+
+		DataManager.Instance.AppData.Unsubscribe<string>("Lang", this.OnLangChanged);
 	}
 
 	protected virtual void UpdateLocalization() { }

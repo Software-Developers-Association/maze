@@ -168,5 +168,7 @@ public class MazeMaker : MonoBehaviour {
 		this.maze = this.generator.Generate(new DFSB(System.DateTime.Now.Second), 0, 0);
 
 		this.Regenerate();
+
+		Debug.Log("Maze Generated!");
 	}
 }

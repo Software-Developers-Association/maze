@@ -46,7 +46,7 @@ public class Patrol : Behaviour {
 
 								if(canMove == false) {
 									direction = Direction.Vertical;
-									Debug.Log("Switching to vertical: " + this.gameObject.GetInstanceID());
+//									Debug.Log("Switching to vertical: " + this.gameObject.GetInstanceID());
 								}
 							}
 							break;
@@ -64,7 +64,7 @@ public class Patrol : Behaviour {
 
 								if(canMove == false) {
 									direction = Direction.Horizontal;
-									Debug.Log("Switching to horizontal: " + this.gameObject.GetInstanceID());
+//									Debug.Log("Switching to horizontal: " + this.gameObject.GetInstanceID());
 								}
 							}
 							break;

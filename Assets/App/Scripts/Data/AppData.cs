@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using UnityEngine;
+
+[System.Serializable]
 public class AppData : Observable {
 	public AppData() {
 		this.Lang = "en";
@@ -13,9 +15,10 @@ public class AppData : Observable {
 			}
 
 			return lang;
-		}
-		set {
-			this.OnUpdate("Lang", value);
+		} set {
+			if(this.OnUpdate("Lang", value)) {
+				Debug.Log("Lang Changed to: " + value);
+			}
 		}
 	}
 }

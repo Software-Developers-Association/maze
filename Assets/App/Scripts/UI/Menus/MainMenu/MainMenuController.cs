@@ -2,48 +2,49 @@
 using UnityEngine.SceneManagement;
 
 public class MainMenuController : UIController<MainMenuView> {
-	protected override void Detach(MainMenuView view) {
-		if(view == null) return;
-
-		view.Play.onClick.RemoveListener(OnPlay);
-		view.Score.onClick.RemoveListener(OnScore);
-		view.Options.onClick.RemoveListener(OnOptions);
-		view.Credits.onClick.RemoveListener(OnCredits);
-		view.Menu.onClick.RemoveListener(OnMenu);
+	public override bool OnBack() {
+		// ensure the MainMenu is always the root.
+		return false;
 	}
 
-	protected override void Attach(MainMenuView view) {
-		if(view == null) return;
+	protected override void Detach() {
+		this.View.Play.onClick.RemoveListener(OnPlayEvent);
+		this.View.Score.onClick.RemoveListener(OnScoreEvent);
+		this.View.Options.onClick.RemoveListener(OnOptionsEvent);
+		this.View.Credits.onClick.RemoveListener(OnCreditsEvent);
+		this.View.Menu.onClick.RemoveListener(OnMenuEvent);
+	}
 
-		view.Play.onClick.AddListener(OnPlay);
-		view.Score.onClick.AddListener(OnScore);
-		view.Options.onClick.AddListener(OnOptions);
-		view.Credits.onClick.AddListener(OnCredits);
-		view.Menu.onClick.AddListener(OnMenu);
+	protected override void Attach() {
+		this.View.Play.onClick.AddListener(OnPlayEvent);
+		this.View.Score.onClick.AddListener(OnScoreEvent);
+		this.View.Options.onClick.AddListener(OnOptionsEvent);
+		this.View.Credits.onClick.AddListener(OnCreditsEvent);
+		this.View.Menu.onClick.AddListener(OnMenuEvent);
 
-		view.Score.interactable = false;
+		this.View.Score.interactable = false;
 		//view.Options.interactable = false;
-		view.Credits.interactable = false;
-		view.Menu.interactable = false;
+		//this.View.Credits.interactable = false;
+		this.View.Menu.interactable = false;
 	}
 
-	protected virtual void OnPlay() {
+	protected virtual void OnPlayEvent() {
 		SceneManager.LoadScene("Game");
 	}
 
-	protected virtual void OnScore() {
+	protected virtual void OnScoreEvent() {
 
 	}
 
-	protected virtual void OnOptions() {
+	protected virtual void OnOptionsEvent() {
 		UIManager.Open<OptionsController>("Options");
 	}
 
-	protected virtual void OnCredits() {
-
+	protected virtual void OnCreditsEvent() {
+		UIManager.Open("Credits");
 	}
 
-	protected virtual void OnMenu() {
+	protected virtual void OnMenuEvent() {
 
 	}
 }

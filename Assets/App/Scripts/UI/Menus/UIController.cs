@@ -7,11 +7,14 @@ public abstract class UIController<T> : UIMenu where T : UIView {
 		get {
 			return this.view;
 		} set {
-			this.Detach(this.view);
-			this.Attach(this.view = value);
+			if(this.View) this.Detach();
+
+			this.view = value;
+
+			this.Attach();
 		}
 	}
 
-	protected abstract void Detach(T view);
-	protected abstract void Attach(T view);
+	protected abstract void Detach();
+	protected abstract void Attach();
 }

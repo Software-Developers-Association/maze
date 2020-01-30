@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameManager : Singleton<GameManager> {
+public class GameManager : MonoBehaviour {
+	private static GameManager instance = null;
+
 	public static event System.Action<int> onScoreChanged = null;
 	public static event System.Action<float> onPowerupChanged = null;
 
@@ -11,40 +13,47 @@ public class GameManager : Singleton<GameManager> {
 	private Player player;
 
 	private int score = 0;
-	private float seconds;
+	private float seconds = 0.0F;
+	private float totalTime = 0.0F;
 	private int pickups = 0;
-	private float powerup;
+	private float powerup = 0.0F;
 	private bool isInvinsible = false;
 
 	public static int Score {
 		get {
-			return Instance.score;
+			return instance.score;
 		} private set {
-			Instance.score = value;
+			instance.score = value;
 
-			Mathf.Clamp(Instance.score, 0, int.MaxValue);
+			Mathf.Clamp(instance.score, 0, int.MaxValue);
 
 			if(GameManager.onScoreChanged != null) {
-				GameManager.onScoreChanged(Instance.score);
+				GameManager.onScoreChanged(instance.score);
 			}
 		}
 	}
 
 	public static float Seconds {
 		get {
-			return Instance.seconds;
+			return instance.seconds;
+		}
+	}
+
+	public static float TotalTime {
+		get {
+			return instance.totalTime;
 		}
 	}
 
 	public static float Powerup {
 		get {
-			return Instance.powerup;
+			return instance.powerup;
 		} private set {
-			if(Instance.powerup != value) {
-				Instance.powerup = value;
+			if(instance.powerup != value) {
+				instance.powerup = value;
 
 				if(GameManager.onPowerupChanged != null) {
-					GameManager.onPowerupChanged(Instance.powerup);
+					GameManager.onPowerupChanged(instance.powerup);
 				}
 			}
 		}
@@ -54,20 +63,20 @@ public class GameManager : Singleton<GameManager> {
 		if(pickup is Pellet) {
 			GameManager.Score += 10;
 
-			var clone = GameObject.Instantiate(Instance.uiScore);
+			var clone = GameObject.Instantiate(instance.uiScore);
 
 			clone.transform.position = pickup.transform.position;
 
 			clone.GetComponentInChildren<UnityEngine.UI.Text>().text = "+10";
 
-			Instance.pickups++;
+			instance.pickups++;
 
-			if(Instance.pickups == 10) {
-				Instance.pickups = 0;
-				Instance.maker.Generate();
-				Instance.seconds += 15.0F;
+			if(instance.pickups == 10) {
+				instance.pickups = 0;
+				instance.maker.Generate();
+				instance.seconds += 15.0F;
 			} else {
-				Instance.seconds += 5.0F;
+				instance.seconds += 5.0F;
 			}
 		}
 	}
@@ -76,22 +85,22 @@ public class GameManager : Singleton<GameManager> {
 		if(GameManager.Powerup < 1.0F) return false;
 
 		GameManager.Powerup = 0.0F;
-		Instance.isInvinsible = true;
+		instance.isInvinsible = true;
 
-		Instance.player.StateMachine.State = "Empowered";
+		instance.player.StateMachine.State = "Empowered";
 
-		Instance.Invoke("ResetPowerup", 2.5F);
+		instance.Invoke("ResetPowerup", 2.5F);
 
 		return true;
 	}
 
 	public static void OnHitVirus() {
-		if(Instance.isInvinsible == true) {
+		if(instance.isInvinsible == true) {
 			GameManager.Score += 5;
 
-			var clone = GameObject.Instantiate(Instance.uiScore);
+			var clone = GameObject.Instantiate(instance.uiScore);
 
-			clone.transform.position = Instance.player.transform.position;
+			clone.transform.position = instance.player.transform.position;
 
 			clone.GetComponentInChildren<UnityEngine.UI.Text>().text = "+5";
 
@@ -108,7 +117,19 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
+	public static void Pause(bool pause) {
+		if(pause) {
+			Time.timeScale = 0.0F;
+		} else {
+			Time.timeScale = 1.0F;
+		}
+	}
+
 	private MazeMaker maker = null;
+
+	private void Awake() {
+		GameManager.instance = this;
+	}
 
 	private void Start() {
 		this.maker = Object.FindObjectOfType <MazeMaker>();
@@ -137,12 +158,27 @@ public class GameManager : Singleton<GameManager> {
 
 		this.StartCoroutine(this._ChargePowerup());
 
-		Instance.player.StateMachine.State = "Normal";
+		instance.player.StateMachine.State = "Normal";
+	}
+
+	private void OnDestroy() {
+		GameManager.Pause(false);
 	}
 
 	private void Update() {
 		this.seconds -= Time.deltaTime;
+		this.totalTime += Time.deltaTime;
 
-		if(this.seconds <= 0.0F) this.seconds = 0.0F;
+		if(this.seconds <= 0.0F) {
+			this.seconds = 0.0F;
+
+			Debug.LogWarning("Game Over");
+
+			GameManager.Pause(true);
+
+			UIManager.Open("GameOver");
+
+			this.gameObject.SetActive(false);
+		}
 	}
 }

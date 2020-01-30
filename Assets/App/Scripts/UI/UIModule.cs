@@ -3,7 +3,7 @@
 public sealed class UIModule : MonoBehaviour {
 	private void Update() {
 		if(Input.GetKeyDown(KeyCode.Escape)) {
-			UIManager.Close();
+			UIManager.OnBack();
 		}
 	}
 }

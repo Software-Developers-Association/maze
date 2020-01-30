@@ -676,11 +676,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5069436688508369252, guid: 308f2b2fb65e9469aa7c2aea8184513f,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: -295
-      objectReference: {fileID: 0}
     - target: {fileID: 5069436688981915026, guid: 308f2b2fb65e9469aa7c2aea8184513f,
         type: 3}
       propertyPath: m_SizeDelta.y

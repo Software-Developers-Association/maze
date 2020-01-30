@@ -15,7 +15,6 @@ public sealed class UIManager : Singleton<UIManager> {
 		this.menuParent.localPosition = Vector3.zero;
 		this.menuParent.localRotation = Quaternion.identity;
 
-		SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
 		SceneManager.sceneLoaded += SceneManager_sceneLoaded;
 	}
 
@@ -27,10 +26,6 @@ public sealed class UIManager : Singleton<UIManager> {
 		for(int i = 0; i < active.Length; ++i) {
 			Destroy(active[i].gameObject);
 		}
-	}
-
-	private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1) {
-		Debug.Log(arg0.name + " to " + arg1.name);
 	}
 
 	private void Start() {
@@ -52,7 +47,7 @@ public sealed class UIManager : Singleton<UIManager> {
 	public static void Attach<T>(T instance) where T : UIMenu {
 		foreach(var menu in Instance.menus) {
 			if(menu == instance) {
-				Debug.Log("Instance found " + menu.name);
+				Debug.Log("UIMenu " + menu.name + " was found, no attaching required.");
 				return;
 			}
 		}
@@ -63,7 +58,7 @@ public sealed class UIManager : Singleton<UIManager> {
 
 		Instance.menus.Push(instance);
 
-		Debug.Log("Attaching...");
+		Debug.LogWarning("UIMenu " + instance.name + " was attached to UIManager.");
 	}
 
 	public static void Open<T>(string name) where T : UIMenu {
@@ -77,7 +72,8 @@ public sealed class UIManager : Singleton<UIManager> {
 
 		if(asset.HideUnderneath) {
 			foreach(var m in Instance.menus) {
-				m.gameObject.SetActive(false);
+				//m.gameObject.SetActive(false);
+				m.Show(false);
 
 				if(m.HideUnderneath) {
 					break;
@@ -91,8 +87,61 @@ public sealed class UIManager : Singleton<UIManager> {
 		menu.Canvas.sortingOrder = Instance.menus.Count;
 		Instance.menus.Push(menu);
 
-		menu.gameObject.SetActive(true);
+		menu.gameObject.transform.SetParent(Instance.menuParent);
+
+		menu.Open();
 		asset.gameObject.SetActive(true);
+	}
+
+	public static void Open(string name) {
+		var asset = Resources.Load<UIMenu>("UI/Menus/" + name);
+
+		if(asset == null) {
+			throw new System.Exception("Menu  could not be located in UI/Menus/" + name + "!");
+		}
+
+		asset.gameObject.SetActive(false);
+
+		if(asset.HideUnderneath) {
+			foreach(var m in Instance.menus) {
+				m.Show(false);
+
+				if(m.HideUnderneath) break;
+			}
+		}
+
+		var menu = Object.Instantiate(asset);
+
+		menu.gameObject.name = asset.name;
+		menu.Canvas.sortingOrder = Instance.menus.Count;
+
+		Instance.menus.Push(menu);
+
+		menu.gameObject.transform.SetParent(Instance.menuParent);
+
+		menu.Open();
+		asset.gameObject.SetActive(true);
+	}
+
+	public static void OnBack() {
+		if(Instance.menus.Count == 0) return;
+
+		var menu = Instance.menus.Peek();
+
+		if(menu.OnBack()) {
+			Instance.menus.Pop();
+
+			menu.Close(
+				() => {
+					Destroy(menu.gameObject);
+				});
+
+			foreach(var m in Instance.menus) {
+				m.Show(true);
+
+				if(m.HideUnderneath) break;
+			}
+		}
 	}
 
 	public static void Close() {
@@ -100,10 +149,13 @@ public sealed class UIManager : Singleton<UIManager> {
 
 		var menu = Instance.menus.Pop();
 
-		Destroy(menu.gameObject);
+		menu.Close(
+			() => {
+				Destroy(menu.gameObject);
+			});
 
 		foreach(var m in Instance.menus) {
-			m.gameObject.SetActive(true);
+			m.Show(true);
 
 			if(m.HideUnderneath) break;
 		}

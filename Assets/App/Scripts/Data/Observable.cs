@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 public abstract class Observable : IObservable {
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
+	[System.NonSerialized]
 	private Dictionary<string, List<object>> listeners = new Dictionary<string, List<object>>();
 
 	protected virtual bool GetValue(string name, out object value) {
@@ -27,7 +29,7 @@ public abstract class Observable : IObservable {
 		return false;
 	}
 
-	protected virtual void OnUpdate<T>(string name, T value) {
+	protected virtual bool OnUpdate<T>(string name, T value) {
 		if(this.properties.ContainsKey(name) == false) {
 			this.properties.Add(name, null);
 		}
@@ -44,7 +46,11 @@ public abstract class Observable : IObservable {
 
 		if(Equals(pValue, value) == false) {
 			this.Notify(name, value);
+
+			return true;
 		}
+
+		return false;
 	}
 
 	protected virtual void Notify<T>(string name, T value) {
@@ -55,7 +61,9 @@ public abstract class Observable : IObservable {
 		for(int i = 0; i < listeners.Count; ++i) {
 			try {
 				((System.Action<T>)listeners[i]).Invoke(value);
-			} catch { }
+			} catch(System.Exception e) {
+				Debug.LogError(e.Message);
+			}
 		}
 	}
 
